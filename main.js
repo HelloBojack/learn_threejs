@@ -17,9 +17,10 @@ group.add(cube)
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight)
 
 const renderer = new THREE.WebGLRenderer();
-document.body.appendChild(renderer.domElement);
+document.querySelector('#app').appendChild(renderer.domElement);
 
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 // camera.position.z = 5;
 
 // const cursor = {
@@ -66,3 +67,24 @@ function animate() {
 }
 
 animate();
+
+
+document.addEventListener('resize', () => {
+  const width = window.innerWidth
+  const height = window.innerHeight
+
+  camera.aspect = width / height
+  camera.updateProjectionMatrix()
+
+  renderer.setSize(width, height)
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+})
+
+document.addEventListener('dblclick', (event) => {
+  if (document.fullscreenElement) {
+    document.exitFullscreen()
+  } else {
+    renderer.domElement.requestFullscreen()
+  }
+})
